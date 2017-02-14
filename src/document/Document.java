@@ -64,32 +64,27 @@ public abstract class Document {
 	 */
 	protected int countSyllables(String word)
 	{
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 2) and 
-	    // EfficientDocument (module 3).
-		int count = 0;
-		
-		word = word.toLowerCase(); //reduce options to verify
-		
-		//count base on normal rules for syllables
-		Pattern syllables = Pattern.compile("[aeiouy]+");
-		Matcher syllablesFound = syllables.matcher(word);
-		
-		while(syllablesFound.find()){
-			count++;
-		}
-		
-		//verify that the word does not finish with single 'e' 
-		boolean specialWord = word.charAt(word.length() -1) == 'e' && count > 1;
-
-		if(specialWord){
-			String beforeLast = String.valueOf(word.charAt(word.length()-2));
-			if(!beforeLast.matches("[aeiouy]")){				
-				count--;
+	   //System.out.print("Counting syllables in " + word + "...");
+			int numSyllables = 0;
+			boolean newSyllable = true;
+			String vowels = "aeiouy";
+			char[] cArray = word.toCharArray();
+			for (int i = 0; i < cArray.length; i++)
+			{
+			    if (i == cArray.length-1 && Character.toLowerCase(cArray[i]) == 'e' 
+			    		&& newSyllable && numSyllables > 0) {
+	                numSyllables--;
+	            }
+			    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+					newSyllable = false;
+					numSyllables++;
+				}
+				else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+					newSyllable = true;
+				}
 			}
-		}
-		
-	    return count;
+			//System.out.println( "found " + numSyllables);
+			return numSyllables;
 	}
 	
 	/** A method for testing
