@@ -54,6 +54,18 @@ public class EfficientDocument extends Document {
 		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
+		numSentences = 0;
+		numWords = 0;
+		numSyllables =0;
+		
+		for(String token: tokens){
+			if(isWord(token)){
+				this.numWords++;
+				this.numSyllables = this.numSyllables + countSyllables(token);
+			}else{
+				this.numSentences++;
+			}
+		}
 	}
 
 	
