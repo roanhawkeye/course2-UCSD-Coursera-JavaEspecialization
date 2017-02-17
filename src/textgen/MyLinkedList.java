@@ -56,18 +56,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E get(int index) 
 	{
 		// TODO: Implement this method.
-		if(index < 0 || index >= this.size()){
+		if(index < 0 ){
 			throw new IndexOutOfBoundsException("element not found");
 		}
 		
 		//find the element
-		LLNode current = head;
+		LLNode current = head.next; //first position after head
+//		System.out.println("Structure of linkedlist");
+//		System.out.println(this.toString());
 		for(int i=0; i < size; i++){
 			if(current.next != null){
-				current = head.next;
+//				System.out.println("current node on position: " + i);
+//				System.out.println(current);
+				
 				if(i == index){
 					return (E) current.data;
 				}
+				current = current.next;
 			}
 		}
 		
@@ -116,7 +121,20 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		// TODO: Implement this method
 		return null;
-	}   
+	}
+	
+	public String toString(){
+		String structure = "";
+		LLNode current = head;
+		for(int i=0; i < size + 2; i++){
+			if(current.next != null){
+				structure = structure + current.toString();
+				current = current.next;
+			}
+		}
+		
+		return structure;
+	}
 }
 
 class LLNode<E> 
@@ -133,6 +151,11 @@ class LLNode<E>
 		this.data = e;
 		this.prev = null;
 		this.next = null;
+	}
+	
+	@Override
+	public String toString(){
+		return "{data="+ this.data  +"}";
 	}
 
 }
