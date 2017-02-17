@@ -124,6 +124,11 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		int previous_size = shortList.size();
+		int expected_size = previous_size + 1;
+		shortList.add("C");
+		assertEquals("Add: check size increment ", expected_size , shortList.size());
+		assertEquals("Add: last element is the added", shortList.get(expected_size -1), "C" );
 		
 	}
 
