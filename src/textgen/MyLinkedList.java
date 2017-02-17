@@ -127,10 +127,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		String structure = "";
 		LLNode current = head;
 		for(int i=0; i < size + 2; i++){
-			if(current.next != null){
-				structure = structure + current.toString();
-				current = current.next;
-			}
+			
+			structure = structure + current.toString();
+			current = current.next;
+			
 		}
 		
 		return structure;
