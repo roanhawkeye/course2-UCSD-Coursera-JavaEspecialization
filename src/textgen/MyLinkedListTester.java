@@ -3,9 +3,8 @@
  */
 package textgen;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -109,12 +108,19 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
-//		int a = list1.remove(0);
-//		assertEquals("Remove: check a is correct ", 65, a);
-//		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
-//		assertEquals("Remove: check size is correct ", 2, list1.size());
+		int a = list1.remove(0);
+		assertEquals("Remove: check a is correct ", 65, a);
+		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
+		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
 		// TODO: Add more tests here
+		try{
+			list1.remove(5);
+			fail("out of bound");
+		}catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -138,6 +144,7 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		assertEquals("Size: check size is properly set", shortList.size(), 2);
 	}
 
 	
@@ -150,7 +157,27 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
+		int previous_size = shortList.size();
+		int expected_size = previous_size + 1;
+		int index = 0;
+		//add element at first position
+		String newElement = "Z";
+		shortList.add(index, newElement);
+		assertEquals("Add at Index: check size increment ", expected_size , shortList.size());
+		assertEquals("Add at Index: element on index same as new element ", shortList.get(index) , newElement);
+		//Add element at second position
+		String secondElement = "Y";
+		int newIndex = 1;
+		shortList.add(newIndex, secondElement);
+		assertEquals("Add at Index: element on index same as new element ", shortList.get(newIndex) , secondElement);
 		
+		try {
+			shortList.add(5, "F");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
 	}
 	
 	/** Test setting an element in the list */
@@ -158,7 +185,22 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
+	    Integer oldValue = list1.set(0, 45);
+	    assertEquals("Set: check old value is correct ", (Integer)65, oldValue);
+		assertEquals("Set: check new value is correct ", (Integer)45, list1.get(0));
+		assertEquals("Set: check size is correct ", 3, list1.size());
+		
+		Integer oldValue2 = list1.set(1, 100);
+	    assertEquals("Set: check old value is correct ", (Integer)21, oldValue2);
+		assertEquals("Set: check new value is correct ", (Integer)100, list1.get(1));
+		assertEquals("Set: check size is correct ", 3, list1.size());
 	    
+	    try{
+			list1.remove(5);
+			fail("out of bound");
+		}catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
 	}
 	
 	
