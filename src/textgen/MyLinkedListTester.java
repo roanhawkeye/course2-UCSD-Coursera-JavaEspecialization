@@ -136,6 +136,14 @@ public class MyLinkedListTester {
 		assertEquals("Add: check size increment ", expected_size , shortList.size());
 		assertEquals("Add: last element is the added", shortList.get(expected_size -1), "C" );
 		
+		try {
+			shortList.add(null);
+			fail("Element is null");
+		}
+		catch (NullPointerException e) {
+		
+		}
+		
 	}
 
 	
@@ -178,6 +186,14 @@ public class MyLinkedListTester {
 		catch (IndexOutOfBoundsException e) {
 		
 		}
+		
+		try {
+			shortList.add(5, null);
+			fail("Element is null");
+		}
+		catch (NullPointerException e) {
+		
+		}
 	}
 	
 	/** Test setting an element in the list */
@@ -200,6 +216,14 @@ public class MyLinkedListTester {
 			fail("out of bound");
 		}catch (IndexOutOfBoundsException e) {
 			// TODO: handle exception
+		}
+	    
+	    try {
+			shortList.set(1,null);
+			fail("Element is null");
+		}
+		catch (NullPointerException e) {
+		
 		}
 	}
 	

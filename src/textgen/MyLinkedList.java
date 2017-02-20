@@ -95,10 +95,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		LLNode current = this.head.next;
 		int current_index = 0;
 		while(!(current_index > index)){
-//			System.out.println("Structure of linkedlist");
-//			System.out.println(this.toString());
+			System.out.println("Structure of linkedlist");
+			System.out.println(this.toString());
 			//throw exception if index surpass size
-			if(current_index > this.size -1){
+			if(current_index > this.size){
 				throw new IndexOutOfBoundsException("Index not found in myLinkedList");
 			}
 			
@@ -114,8 +114,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
 				//next element pointers
 				current.prev = newElement;
 				this.size++;
-//				System.out.println("Structure of linkedlist");
-//				System.out.println(this.toString());
+				System.out.println("Structure of linkedlist");
+				System.out.println(this.toString());
 				break;
 			}
 			
@@ -183,6 +183,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E set(int index, E element) 
 	{
 		// TODO: Implement this method
+				if(element == null){
+					throw new NullPointerException("element can not be null");
+				}
+		
 				LLNode<E> current = this.head.next;
 				int current_index = 0;
 				while(!(current_index > index)){
