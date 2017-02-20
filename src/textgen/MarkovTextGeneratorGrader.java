@@ -1,8 +1,8 @@
 package textgen;
 
-import java.util.Random;
-import java.util.HashMap;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Random;
 
 public class MarkovTextGeneratorGrader {
     private static final int LENGTH = 500;
@@ -92,6 +92,7 @@ public class MarkovTextGeneratorGrader {
             f.close();
             return;
         } catch (Exception e) {
+        	e.printStackTrace();
             System.out.println("Error during runtime: " + e);
         }
     }
