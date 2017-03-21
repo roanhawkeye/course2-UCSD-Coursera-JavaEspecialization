@@ -2,6 +2,7 @@ package spelling;
 
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,6 +21,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     public AutoCompleteDictionaryTrie()
 	{
 		root = new TrieNode();
+		size = 0;
 	}
 	
 	
@@ -40,7 +42,31 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean addWord(String word)
 	{
 	    //TODO: Implement this method.
-	    return false;
+		word = word.toLowerCase();
+		char[] wordCharacters = word.toCharArray();
+		TrieNode current = root;
+		for(int i=0;i < wordCharacters.length; i++){
+			//verify a that the first letter exist
+			TrieNode element = current.getChild(wordCharacters[i]);
+			if(element != null){
+				current = element;
+			}else{
+				TrieNode newNode = current.insert(wordCharacters[i]);
+				current = newNode;
+			}
+			if(i == (wordCharacters.length -1)){
+				if(!current.endsWord()){
+					current.setEndsWord(true);
+					this.size++;
+					return true;
+					
+				}else{					
+					return false;
+				}
+			}
+			
+		}
+		return false;
 	}
 	
 	/** 
@@ -50,7 +76,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public int size()
 	{
 	    //TODO: Implement this method
-	    return 0;
+		return this.size;
 	}
 	
 	
@@ -60,6 +86,22 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean isWord(String s) 
 	{
 	    // TODO: Implement this method
+		s = s.toLowerCase();
+		char[] sInChars = s.toCharArray();
+		TrieNode current = root;
+		for(int i=0; i < sInChars.length ; i++){
+			if(!current.getValidNextCharacters().contains(sInChars[i])){
+				return false;
+			}
+			current = current.getChild(sInChars[i]);
+			
+			if(i == (sInChars.length -1)){
+				if(current.endsWord() && current.getText().equalsIgnoreCase(s)){
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 
@@ -100,8 +142,59 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     	 //       If it is a word, add it to the completions list
     	 //       Add all of its child nodes to the back of the queue
     	 // Return the list of completions
+    	 System.out.println("prefix: " + prefix);
+    	 System.out.println("numCompletions: " + numCompletions);
     	 
-         return null;
+    	 List<String> completions = new ArrayList<String>();
+     	 LinkedList<TrieNode> quee = new LinkedList<TrieNode>();
+    	 
+    	 TrieNode current = root;
+    	 if(!prefix.equalsIgnoreCase("")){
+    		 
+    		 prefix = prefix.toLowerCase();
+    		 char[] prefixChars = prefix.toCharArray();
+    		 System.out.println("chars: " + prefixChars.toString());
+    		 //find the steam of the prefix
+    		 for(int i=0;i < prefixChars.length; i++){
+    			 if(!current.getValidNextCharacters().contains(prefixChars[i])){
+    				 return new ArrayList<String>();
+    			 }
+    			 current = current.getChild(prefixChars[i]);
+    		 }
+    		 Object[] posiblitiesAfterSteam = current.getValidNextCharacters().toArray();
+    		 System.out.println("posibilites After Steam: " + posiblitiesAfterSteam);
+    		 
+    		 for(int i=0;i < posiblitiesAfterSteam.length; i++){
+    			 quee.addLast(current.getChild((char) posiblitiesAfterSteam[i]));
+    		 }
+    	 }else{
+    		 Object[] posiblitiesAfterSteam = current.getValidNextCharacters().toArray();
+    		 System.out.println("posibilites After Steam: " + posiblitiesAfterSteam);
+    		 
+    		 for(int i=0;i < posiblitiesAfterSteam.length; i++){
+    			 quee.addLast(current.getChild((char) posiblitiesAfterSteam[i]));
+    		 }
+    	 }
+    	 
+    	 if(current.endsWord()){
+    		 completions.add(current.getText());
+    	 }
+    	 
+    	 System.out.println(quee);
+    	 
+    	 while(!quee.isEmpty() && (completions.size() < numCompletions)){
+    		 TrieNode next = quee.pop();
+    		 if(next.endsWord()){
+    			 completions.add(next.getText());
+    		 }
+    		 Object[] nextPosibilities = next.getValidNextCharacters().toArray();
+    		 for(int i=0;i < nextPosibilities.length; i++){
+    			 quee.addLast(next.getChild((char) nextPosibilities[i]));
+    		 }
+    	 }
+    	 printTree();
+    	 System.out.println("completion list: " + completions);
+         return completions;
      }
 
  	// For debugging
